@@ -1,0 +1,353 @@
+from typing import List
+import random
+deck = ['HA', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7', 'H8', 'H9', 'H10', 'HJ', 'HQ', 'HK', 'CA', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'CJ', 'CQ', 'CK', 'DA', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10', 'DJ', 'DQ', 'DK', 'SA', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'S9', 'S10', 'SJ', 'SQ', 'SK']
+deckInUse = deck.copy()
+
+
+def dealerhit(list1, list2, list3, list4, list5):
+    for h in range(0, 21):
+        o = sum(list1)
+        if not list2:
+            int(sum(list2))
+        while o < 17:
+            deckcheck()
+            u = list3.pop()
+            deckcheck()
+            list5.append(u)
+            chekcards(u, listforcalc)
+            list1.append(list4.pop())
+            o = sum(list1)
+
+
+# Decides which hand wins
+def bustcheck(list1, list2):
+    if sum(list1) > 21:
+        print('You Busted')
+        print('The Dealer Wins')
+        printend(Dtotalhands, Ptotalhands, BreakCheckList)
+        return
+    if sum(list2) > 21:
+        print('The Dealer Busted')
+        print('You Win!')
+        printend(Dtotalhands, Ptotalhands, BreakCheckList)
+        return
+    if sum(list2) < sum(list1):
+        print('You Win!')
+        printend(Dtotalhands, Ptotalhands, BreakCheckList)
+        return
+    if sum(list2) > sum(list1):
+        print('The Dealer Wins')
+        printend(Dtotalhands, Ptotalhands, BreakCheckList)
+        return
+
+
+def bustcheckV2(list1, list2):
+    if sum(list1) > 21:
+        for g in list1:
+            if g == 11:
+                p = list1.index(g)
+                j = list1.pop(p)
+                j = 1
+                list1.append(j)
+                bustcheck(Ptotalhand, Dtotalhand)
+                return
+    if sum(list2) > 21:
+        if not any(g == 11 for g in list2):
+            print('The Dealer Busted')
+            print('You Win!')
+            printend(Dtotalhands, Ptotalhands, BreakCheckList)
+            return
+        for g in list2:
+            if g == 11:
+                p = list2.index(g)
+                j = list2.pop(p)
+                j = 1
+                list2.append(j)
+                bustcheck(Ptotalhand, Dtotalhand)
+                return
+    if sum(list2) < sum(list1):
+        print('You Win!')
+        printend(Dtotalhands, Ptotalhands, BreakCheckList)
+        return
+    if sum(list2) > sum(list1):
+        print('The Dealer Wins')
+        printend(Dtotalhands, Ptotalhands, BreakCheckList)
+        return
+
+
+def bustcheckV3(list1, list2):
+    listextending(Ptotalhand, Pextrahand, Dtotalhand, Dextrahand, Ptotalhands, Pextrahands, Dtotalhands, Dextrahands)
+    if sum(list1) > 21:
+        if not any(g == 11 for g in list1):
+            print('You Busted')
+            print('The Dealer Wins')
+            printend(Dtotalhands, Ptotalhands, BreakCheckList)
+            return
+        playeraceconverting(Ptotalhand)
+        bustcheckV2(Ptotalhand, Dtotalhand)
+    if sum(list2) > 21:
+        if not any(g == 11 for g in list2):
+            print('The Dealer Busted')
+            print('You Win!')
+            printend(Dtotalhands, Ptotalhands, BreakCheckList)
+            return
+        dealeraceconverting(Dtotalhand)
+        return
+
+    if sum(list2) < sum(list1):
+        print('You Win!')
+        printend(Dtotalhands, Ptotalhands, BreakCheckList)
+        return
+    if sum(list2) > sum(list1):
+        print('The Dealer Wins')
+        printend(Dtotalhands, Ptotalhands, BreakCheckList)
+        return
+    if sum(list2) == sum(list1):
+        print('Your hand Pushes')
+        printend(Dtotalhands, Ptotalhands, BreakCheckList)
+        return
+
+
+def playerhit(list1, list2, list3):
+    deckcheck()
+    x = list1.pop()
+    deckcheck()
+    list2.append(x)
+    print(x)
+    chekcards(x, listforcalc)
+    list3.append(listforcalc.pop())
+    print('Your Cards:')
+
+
+def hitstand(list1, list2, list3):
+    listextending(Ptotalhand, Pextrahand, Dtotalhand, Dextrahand, Ptotalhands, Pextrahands, Dtotalhands, Dextrahands)
+    if list1[-1] == 'stand':
+        list1.pop()
+        list1.append('stop')
+        print('Revealing The Hidden Card')
+        print(z, a)
+        dealerhit(Dtotalhand, Dextrahand, deckInUse, listforcalc, Dtotalhands)
+        dealeraceconverting(Dtotalhand)
+        dealerhit(Dtotalhand, Dextrahand, deckInUse, listforcalc, Dtotalhands)
+        dealeraceconverting(Dtotalhand)
+        dealerhit(Dtotalhand, Dextrahand, deckInUse, listforcalc, Dtotalhands)
+        listextending(Ptotalhand, Pextrahand, Dtotalhand, Dextrahand, Ptotalhands, Pextrahands, Dtotalhands, Dextrahands)
+        bustcheckV3(Ptotalhand, Dtotalhand)
+        return
+    if list1[-1] == 'hit':
+        list1.pop()
+        playerhit(deckInUse, Ptotalhands, Ptotalhand)
+        print(list2)
+    playeraceconverting(Ptotalhand)
+    if sum(list3) > 21:
+        revealingcard(Ptotalhand)
+        return
+
+
+def revealingcard(list1):
+    if sum(list1) > 21:
+        print('Revealing The Hidden Card')
+        print(z, a)
+        dealerhit(Dtotalhand, Dextrahand, deckInUse, listforcalc, Dtotalhands)
+        dealeraceconverting(Dtotalhand)
+        dealerhit(Dtotalhand, Dextrahand, deckInUse, listforcalc, Dtotalhands)
+        dealeraceconverting(Dtotalhand)
+        bustcheckV3(Ptotalhand, Dtotalhand)
+
+
+def autostandv2(list1, list2, list3):
+    oo = 1
+    listextending(Ptotalhand, Pextrahand, Dtotalhand, Dextrahand, Ptotalhands, Pextrahands, Dtotalhands, Dextrahands)
+    playeraceconverting(Ptotalhand)
+    if sum(list1) > 21:
+        oo = 6
+        y = 'stand'
+        list2.append(y)
+        dealeraceconverting(Dtotalhand)
+    if not oo == 6:
+        y = input("stand/hit")
+        list2.append(y)
+    dealeraceconverting(Dtotalhand)
+    hitstand(BreakCheckList, Ptotalhands, Ptotalhand)
+    return
+
+def dealeraceconverting(list1):
+    for g in list1:
+        while g == 11 and sum(list1) > 21:
+            if g == 11:
+                p = list1.index(g)
+                j = list1.pop(p)
+                j = 1
+                list1.append(j)
+                dealerhit(Dtotalhand, Dextrahand, deckInUse, listforcalc, Dtotalhands)
+                if sum(list1) > 21:
+                    for g in list1:
+                        while g == 11 and sum(list1) > 21:
+                            p = list1.index(g)
+                            j = list1.pop(p)
+                            j = 1
+                            list1.append(j)
+                        dealerhit(Dtotalhand, Dextrahand, deckInUse, listforcalc, Dtotalhands)
+
+
+def playeraceconverting(list1):
+    for g in list1:
+        while g == 11 and sum(list1) > 21:
+            if g == 11:
+                p = list1.index(g)
+                j = list1.pop(p)
+                j = 1
+                list1.append(j)
+                g = 0
+
+
+def blackjacjcheck(list1, list2):
+    if sum(list1) == 21 and len(list1) == 2:
+        print('Blackjack!')
+        print('Revealing the hidden card')
+        print(z, a)
+        dealerhit(Dtotalhand, Dextrahand, deckInUse, listforcalc, Dtotalhands)
+        bustcheckV3(Ptotalhand, Dtotalhand)
+        BJStop = 2
+        list2.append(BJStop)
+        return
+
+
+def printend(list1, list2, list3):
+    print('Dealers hand', list1)
+    print('Your Hand', list2)
+    print('===================================================================================')
+    list3.append('stop')
+
+
+def listextending(list1, list2, list3, list4, list5, list6, list7, list8):
+    list1.extend(list2)
+    list3.extend(list4)
+    list5.extend(list6)
+    list7.extend(list8)
+
+
+def deckcheck():
+
+        global deckInUse
+        if len(deckInUse) < 1:
+            print('Shuffling deck')
+            deckInUse = deck.copy()
+
+
+def chekcards(x, list1):
+
+            if x[1] == '2':
+                x = 2
+                list1.append(x)
+                return
+            if x[1] == '3':
+                x = 3
+                list1.append(x)
+                return
+            if x[1] == '4':
+                x = 4
+                list1.append(x)
+                return
+            if x[1] == '5':
+                x = 5
+                list1.append(x)
+                return
+            if x[1] == '6':
+                x = 6
+                list1.append(x)
+                return
+            if x[1] == '7':
+                x = 7
+                list1.append(x)
+                return
+            if x[1] == '8':
+                x = 8
+                list1.append(x)
+                return
+            if x[1] == '9':
+                x = 9
+                list1.append(x)
+                return
+            if x[1] == '1':
+                x = 10
+                list1.append(x)
+                return
+            if x[1] == 'J':
+                x = 10
+                list1.append(x)
+                return
+            if x[1] == 'Q':
+                x = 10
+                list1.append(x)
+                return
+            if x[1] == 'K':
+                x = 10
+                list1.append(x)
+                return
+            if x[1] == 'A':
+                x = 11
+                list1.append(x)
+                return
+for t in range(0, 10):
+
+    while len(deckInUse) > 1:
+        random.shuffle(deckInUse)
+        deckcheck()
+        z = deckInUse.pop()
+        deckcheck()
+        y = deckInUse.pop()
+        deckcheck()
+        a = deckInUse.pop()
+        deckcheck()
+        b = deckInUse.pop()
+        deckcheck()
+
+        livehands = [z, y, a, b]
+        print('Dealers hand:')
+        print(['Hidden', a])
+        print('Your hand:')
+        print(y, b)
+
+        listforcalc: List[int] = []
+
+
+
+        for x in livehands:
+            chekcards(x, listforcalc)
+
+        Dextrahand: List[int] = []
+        j = 1
+        Pextrahand: List[int] = []
+        Pextrahands = []
+        oo = 0
+        BreakCheckList = ['a']
+        Dextrahands = []
+        Ptotalhand: List[int] = [listforcalc[1], listforcalc[3]]
+        Dtotalhand: List[int] = [listforcalc[0], listforcalc[2]]
+        Ptotalhands = [y, b]
+        Dtotalhands = [z, a]
+        listextending(Ptotalhand, Pextrahand, Dtotalhand, Dextrahand, Ptotalhands, Pextrahands, Dtotalhands, Dextrahands)
+        blackjackchecklist = [3]
+        for j in range(9):
+            blackjacjcheck(Ptotalhand, blackjackchecklist)
+            if blackjackchecklist[-1] == 2:
+                break
+            autostandv2(Ptotalhand, BreakCheckList, Dtotalhand)
+            dealeraceconverting(Dtotalhand)
+            playeraceconverting(Ptotalhand)
+            if sum(Ptotalhand) > 21:
+                break
+            if BreakCheckList[-1] == 'stop':
+                break
+        deckcheck()
+
+        hh = input('Do you want to continue? (y/n)')
+        if hh == 'y':
+            continue
+
+        if hh == 'n':
+            print('Thank you for playing :)')
+            exit()
+
+
